@@ -1,0 +1,5 @@
+/* This forces the dropdown menu to open upward */
+#y_axis_dropdown_3 .Select__menu {
+    top: auto !important;
+    bottom: 100% !important;
+}

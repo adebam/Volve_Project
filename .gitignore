@@ -1,0 +1,8 @@
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+
+0000_ALL_Volve_dataset/
+Making_folder_directory/
+EclipseReferenceManual.pdf/
+backup/
