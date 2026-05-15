@@ -1,3 +1,11 @@
+"""
+def Fetch_XY_location_make_dataframe(root_dir) -- makes a dataframe  of xy location. Needs clean_value(value) & get_file_type(file_path)
+def dms_to_dd(dms_str) -- changes degrees, minutes, seconds to decimal degrees
+def DMS_decimal(df) -- applies def dms_to_dd(dms_str) to a dataframe
+def poly(file_path)-- only fetches 2014_Volve_Hugin_Base.dat polygon and turn it into a dataframe. it can be later be plotted. 
+
+pyproj is needed to be installed
+"""
 #basics
 import pandas as pd
 import seaborn as sns
@@ -13,13 +21,12 @@ import plotly.offline as pyo
 import plotly.graph_objs as go
 from dash.dependencies import Input, Output
 from dash.exceptions import PreventUpdate
-import plotly.express as px
 
 #others
 from pathlib import Path
 import re
 
-# these function fetch  all file the well technical data and looks for xy coordinates
+
 def clean_value(value):
     value = value.strip()
     value = re.sub(r"(?<=\d)\s*m$", "", value, flags=re.IGNORECASE)
@@ -37,6 +44,13 @@ def get_file_type(file_path):
         return None
 
 def Fetch_XY_location_make_dataframe(root_dir):
+    """
+    The codes below goes to the well technical data folder.
+    Looks at all the files that has PLAN or ACTUAL in the file name.
+    Extracts all data in the file with "WELL NAME", "WELLBORE NAME", "Surface EW", "Surface NS","Surface Latitude","Surface Longitude", "Bottom Hole EW", "Bottom Hole NS"
+    Counts all letters in all the wells names. I don't want wellnames with too many letters.
+    Makes a dataframe of all the information.
+    """
     #root_dir = Path("../../Projects/0_Volve_dataset/13_Well_technical_data")
     fields = [
         "WELL NAME",
@@ -105,10 +119,12 @@ def Fetch_XY_location_make_dataframe(root_dir):
     df_headers= df_headers[df_headers["char_count"] <= 15]
     return df_headers
 
-# this function does
-# 1. changes the 'Surface Latitude','Surface Longitude' in degrees to  decimal and gives a new column lat_dd and lon_dd
+
 
 def dms_to_dd(dms_str):
+    """
+    changes the 'Surface Latitude','Surface Longitude' in degrees to  decimal and gives a new column lat_dd and lon_dd
+    """
     # extract numbers
     parts = re.findall(r"[\d.]+", dms_str)
     degrees, minutes, seconds = map(float, parts)
@@ -125,15 +141,20 @@ def dms_to_dd(dms_str):
     
 
 def DMS_decimal(df):
-    #Apply DMS to the df_XY dataframe
+    """
+    This applies def dms_to_dd(dms_str) to a df  to give new cols lat_dd and lon_dd
+    """
     df["lat_dd"] = df["Surface Latitude"].apply(dms_to_dd)
     df["lon_dd"] = df["Surface Longitude"].apply(dms_to_dd)
     return df
 
 
-# fetch the polygon and make it into a dataframe
+
 def poly(file_path):
-    #load and convert the Hugin base polygon to a dataframe
+    """
+    This fetches the 2014_Volve_Hugin_Base.dat from the dataset folder and makes it intoa dataframe.
+    It load and convert the Hugin base polygon to a dataframe
+    """
     
     file_path = Path("../../0_Volve_dataset/2_Geophysical_Interpretations/Fault_polygons/2014_Volve_Hugin_Base.dat")
     
@@ -189,7 +210,10 @@ def poly(file_path):
 
 
 def transform_lat_long_to_XY(df_poly):
+    """
     # covert polgyon coordinate to world map
+    """
+
     from pyproj import Transformer
     
     # ED50 / UTM Zone 31N -> WGS84 lat/lon

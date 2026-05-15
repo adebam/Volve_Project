@@ -1,3 +1,12 @@
+"""
+def Load_clean_production_data(file_path)-- loads the production data
+def metric_to_field(df)-- the production is in metric. This changes to field. returns a new dataframe production_df_field
+def cummulative_calc(df)-- calculate cumulative production.  watch the channels. Only works with the specific channel name.
+ratio_calc(df)-- calculate ratios. Again watch the channels
+def times_calc(df)-- caculates 
+1. Normalized_Time_days. Changes Date to running day. Makes all time for all well start at day 0
+2. is_producing. This is Normalized_Time_days but not counting the time the well is not producing
+"""
 #basics
 import pandas as pd
 import seaborn as sns
@@ -13,6 +22,7 @@ import plotly.offline as pyo
 import plotly.graph_objs as go
 from dash.dependencies import Input, Output
 from dash.exceptions import PreventUpdate
+
 
 def Load_clean_production_data(file_path):
     #file_path = ("../../0_Volve_dataset/5_Production_data/Volve_production_data.xlsx")

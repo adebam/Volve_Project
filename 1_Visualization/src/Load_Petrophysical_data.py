@@ -1,3 +1,7 @@
+"""
+This loads data for the ecplise data file using a keyword.
+"""
+
 #basics
 import pandas as pd
 import numpy as np
