@@ -1,5 +1,5 @@
-/* This forces the dropdown menu to open upward */
-#y_axis_dropdown_3 .Select__menu {
-    top: auto !important;
-    bottom: 100% !important;
+.rotate-dropdown {
+    transform: rotate(-90deg);
+    transform-origin: center;
 }
+
