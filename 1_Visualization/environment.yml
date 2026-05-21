@@ -1,0 +1,27 @@
+name: volve_project_visualization
+channels:
+  - conda-forge
+dependencies:
+  - dash
+  - ipykernel
+  - ipython
+  - ipywidgets
+  - jupyterlab
+  - jupyterlab-git
+  - lmfit
+  - matplotlib
+  - notebook
+  - numpy
+  - openpyxl
+  - pandas
+  - pipreqs
+  - plotly
+  - pyproj
+  - python=3.11
+  - scikit-learn
+  - scipy
+  - seaborn
+  - pip
+  - pip:
+      - dash-bootstrap-components==2.0.4
+
