@@ -97,12 +97,7 @@ Oil and gas production can be fitted and forecasted. Forecasting water productio
 git clone https://github.com/adebam/Volve_Project.git
 cd 1_Visualization
 ```
-##### 2. Create Environment
-```bash
-conda create -n volve_env python=3.11
-conda activate volve_env
-```
-##### 3. Install Dependencies
+##### 2. Install Dependencies
 ```bash
 mamba env create -f environment.yml
 ```
@@ -110,12 +105,12 @@ Or using Conda:
 ```bash
 conda env create -f environment.yml
 ```
-##### 4. Activate the Environment
+##### 3. Activate the Environment
 ```bash
-mamba activate volve_project
+mamba activate volve_project_visualization
 ```
 
-##### 5. Start JupyterLab
+##### 4. Start JupyterLab
 ```bash
 jupyter lab
 ```
