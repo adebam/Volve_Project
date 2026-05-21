@@ -50,7 +50,7 @@ The aim is to select a well on the world map and view its production time plot. 
  - After execution, open the local Dash server URL in your browser (normally should end with **:8050**).
 
 ![Dashboard Preview](Production_dashboard_preview.png)
-[Watch Video](Production_fixed.mp4)
+▶️ [Watch Production Dashboard Video](https://drive.google.com/file/d/1Pz_5VcbUI8Ji1sQFz0V4vMw6c4dc0JN7/view?usp=sharing)
 
 #### Dash_Well_Comparison.ipynb
 The main goal is to compare different production streams, such as oil, water, and gas, from several wells simultaneously, and relate those trends to the porosity and permeability maps. 
@@ -63,7 +63,8 @@ Run the notebook to the every end <br>
 After execution, open the local Dash server URL in your browser (normally should end with **:8050**).
 
 ![Dashboard Preview](Well_comparison.png)
-[Watch Video](Wellcomparison.mp4)
+▶️ [Watch Well Comparison Dashboard Video](https://drive.google.com/file/d/1wOU-4wZpXY_SVLc3ehhqpFxsc68J7yZb/view?usp=sharing)
+
 
 #### Dash_Decline_Curve.ipynb
 The goal is to fit a model (curve) to the production data. Up to three models can be fitted simultaneously, and the model parameters can be displayed in the table along with the estimated future production (EUR).<br>
@@ -81,7 +82,7 @@ Oil and gas production can be fitted and forecasted. Forecasting water productio
  - After execution, open the local Dash server URL in your browser (normally should end with **:8050**).
 
 ![Dashboard Preview](Decline_curve.png)
-[Watch Video](Decline_curve_analysis.mp4)
+▶️ [Watch Decline Curve Video](https://drive.google.com/file/d/1A9YSXI_-h2aOAXEerGXpeZJqCbnkFhk4/view?usp=sharing)
 
 ## Technologies
 
