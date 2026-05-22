@@ -156,7 +156,7 @@ def poly(file_path):
     It load and convert the Hugin base polygon to a dataframe
     """
     
-    file_path = Path("../../0_Volve_dataset/2_Geophysical_Interpretations/Fault_polygons/2014_Volve_Hugin_Base.dat")
+    #file_path = Path("../../0_Volve_dataset/2_Geophysical_Interpretations/Fault_polygons/2014_Volve_Hugin_Base.dat")
     
     rows = []
     current_polygon = None

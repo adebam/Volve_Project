@@ -6,3 +6,4 @@ pandas==3.0.3
 plotly==6.6.0
 pyproj==3.7.2
 seaborn==0.13.2
+gunicorn==23.0.0
