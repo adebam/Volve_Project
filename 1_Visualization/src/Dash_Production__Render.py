@@ -24,6 +24,7 @@ import plotly.express as px
 #others
 from pathlib import Path
 import re
+import os
 
 
 # In[2]:
@@ -36,22 +37,21 @@ import re
 # In[3]:
 
 
-import sys
-sys.path.append("../src")   # VERY IMPORTANT
-
 
 # In[4]:
 
 
 # load the production data 
 from Load_clean_production_data import Load_clean_production_data
+# Finds the root directory (Volve_Project/) dynamically
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+data_path = os.path.join(BASE_DIR, '0_Volve_dataset', '5_Production_data', 'Volve_production_data.xlsx')
 
-file_path = ("../../0_Volve_dataset/5_Production_data/Volve_production_data.xlsx")
+def load_data():
 
+    return pd.read_excel(data_path)
 
-production_df = Load_clean_production_data(file_path)
-
-production_df
+production_df = load_data()
 
 
 # In[5]:
@@ -66,14 +66,20 @@ production_df_field
 
 
 
-
 # In[6]:
-
 
 # load the XY coordinate data
 from Find_Load_plot_X_Y_loc import Fetch_XY_location_make_dataframe
-root_dir = Path("../../0_Volve_dataset/13_Well_technical_data")
-df_headers=Fetch_XY_location_make_dataframe(root_dir)
+# 1. Get the absolute path of the directory 
+SCRIPT_DIR = Path(__file__).resolve().parent
+
+# 2. Navigate up to the project root and down into the target folder
+
+ROOT_DIR = SCRIPT_DIR.parent.parent / "0_Volve_dataset" / "13_Well_technical_data"
+
+
+# 3. Pass the absolute path to your function
+df_headers = Fetch_XY_location_make_dataframe(ROOT_DIR)
 
 
 # In[7]:
@@ -167,9 +173,18 @@ production_df_field
 
 # fetch the polygon and make it into a dataframe
 from Find_Load_plot_X_Y_loc import poly
-file_path = Path("../../0_Volve_dataset/2_Geophysical_Interpretations/Fault_polygons/2014_Volve_Hugin_Base.dat")
-df_poly=poly(file_path)
-df_poly
+SCRIPT_DIR = Path(__file__).resolve().parent
+
+polygon_file_path = (
+    SCRIPT_DIR.parent.parent 
+    / "0_Volve_dataset" 
+    / "2_Geophysical_Interpretations" 
+    / "Fault_polygons" 
+    / "2014_Volve_Hugin_Base.dat"
+)
+
+df_poly = poly(polygon_file_path)
+
 
 
 # In[25]:
@@ -445,106 +460,4 @@ def update_table(selectedData):
 
 if __name__ == '__main__':
     app.run()
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
 
