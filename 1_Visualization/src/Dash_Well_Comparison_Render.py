@@ -21,7 +21,7 @@ import plotly.graph_objs as go
 from dash.dependencies import Input, Output
 from dash.exceptions import PreventUpdate
 import plotly.express as px
-import dash_bootstrap_components as dbc
+#import dash_bootstrap_components as dbc
 
 #others
 from pathlib import Path
