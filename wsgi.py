@@ -5,11 +5,13 @@ import os
 from dash import html, dcc
 from dash.dependencies import Input, Output
 
-# Import the dash app objects from your scripts
-# (Ensure your scripts expose the 'app' or 'server' variable)
-from find_visualization.src.Dash_Production__Render import app as app1
-from find_visualization.src.Dash_Well_Comparison_Render import app as app2
-from find_visualization.src.Dash_Decline_Curve_Render import app as app3
+# Force Python to see inside your visualization source folder
+sys.path.append(os.path.join(os.path.dirname(__file__), '1_Visualization', 'src'))
+
+# Clean, safe imports
+from Dash_Production__Render import app as app1
+from Dash_Well_Comparison_Render import app as app2
+from Dash_Decline_Curve_Render import app as app3
 
 # Create a master app to handle navigation
 meta_app = dash.Dash(__name__, suppress_callback_exceptions=True)
