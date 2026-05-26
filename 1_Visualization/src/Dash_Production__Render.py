@@ -25,6 +25,7 @@ import plotly.express as px
 from pathlib import Path
 import re
 import os
+import flask
 
 
 # In[2]:
@@ -190,7 +191,8 @@ df_poly = poly(polygon_file_path)
 # In[25]:
 
 
-app=dash.Dash()
+server = flask.Flask(__name__)
+app = dash.Dash(__name__, server=server) 
 fig_wells = px.scatter_geo(production_df_field,lat="lat_dd",lon="lon_dd",hover_name="NPD_WELL_BORE_NAME")
 app.layout=html.Div([
                     # basic header

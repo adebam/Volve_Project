@@ -26,6 +26,7 @@ import traceback
 from pathlib import Path
 import re
 import os
+import flask
 
 
 # In[2]:
@@ -161,8 +162,8 @@ from Decline_curve import forecast_dates # minimizer
 
 # In[12]:
 
-
-app = dash.Dash(__name__)
+server = flask.Flask(__name__)
+app = dash.Dash(__name__, server=server)
 
 wellnames = production_df_field["NPD_WELL_BORE_NAME"].unique()
 modelnames = ["Exponential Decline", "Hyperbolic Decline", "Harmonic Decline"]

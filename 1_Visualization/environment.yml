@@ -3,14 +3,18 @@ channels:
   - conda-forge
 dependencies:
   - dash
+  - flask
   - ipykernel
   - ipython
   - ipywidgets
   - jupyterlab
   - jupyterlab-git
+  - line_profiler
   - lmfit
   - matplotlib
+  - memory_profiler
   - notebook
+  - notebook_intelligence
   - numpy
   - openpyxl
   - pandas
@@ -21,7 +25,6 @@ dependencies:
   - scikit-learn
   - scipy
   - seaborn
-  - pip
+  - streamlit
   - pip:
       - dash-bootstrap-components==2.0.4
-
