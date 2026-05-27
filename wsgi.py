@@ -51,23 +51,20 @@ def home():
     ''')
 
 # 3. CRITICAL STEP: Configure Dash requests paths to respect the sub-directories
-app1 = dash.Dash(
-    __name__,
-    routes_pathname_prefix='/production/',
-    requests_pathname_prefix='/production/'
-)
+app1.config.update({
+    'routes_pathname_prefix': '/production/',
+    'requests_pathname_prefix': '/production/'
+})
 
-app2 = dash.Dash(
-    __name__,
-    routes_pathname_prefix='/comparison/',
-    requests_pathname_prefix='/comparison/'
-)
+app2.config.update({
+    'routes_pathname_prefix': '/comparison/',
+    'requests_pathname_prefix': '/comparison/'
+})
 
-app3 = dash.Dash(
-    __name__,
-    routes_pathname_prefix='/decline/',
-    requests_pathname_prefix='/decline/'
-)
+app3.config.update({
+    'routes_pathname_prefix': '/decline/',
+    'requests_pathname_prefix': '/decline/'
+})
 
 
 
@@ -77,7 +74,6 @@ server.wsgi_app = DispatcherMiddleware(server.wsgi_app, {
     '/comparison': app2.server,
     '/decline': app3.server
 })
-
 if __name__ == '__main__':
     # This is only used for testing locally
     from werkzeug.serving import run_simple
