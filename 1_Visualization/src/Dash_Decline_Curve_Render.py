@@ -167,6 +167,7 @@ app = dash.Dash(
     routes_pathname_prefix='/decline/',
     requests_pathname_prefix='/decline/'
 )
+app3 = app
 
 wellnames = production_df_field["NPD_WELL_BORE_NAME"].unique()
 modelnames = ["Exponential Decline", "Hyperbolic Decline", "Harmonic Decline"]

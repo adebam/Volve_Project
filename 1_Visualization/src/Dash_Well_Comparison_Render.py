@@ -241,6 +241,8 @@ app = dash.Dash(
     requests_pathname_prefix='/comparison/'
 )
 
+app2 = app
+
 poro_heatmap=go.Heatmap(x=x_real,y=y_real,z=poro_avg,colorscale="Viridis",colorbar={"title": "Porosity<br>frac"})
 perm_heatmap=go.Heatmap(x=x_real,y=y_real,z=perm_avg,colorscale="Viridis",colorbar={"title": "Permeability<br>md"})
 wellnames =production_df_field["NPD_WELL_BORE_NAME"].unique()

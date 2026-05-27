@@ -197,6 +197,8 @@ app = dash.Dash(
     requests_pathname_prefix='/production/'
 )
 
+app1 = app
+
 fig_wells = px.scatter_geo(production_df_field,lat="lat_dd",lon="lon_dd",hover_name="NPD_WELL_BORE_NAME")
 app.layout=html.Div([
                     # basic header
