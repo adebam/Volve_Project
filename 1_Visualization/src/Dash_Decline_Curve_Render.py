@@ -163,7 +163,12 @@ from Decline_curve import forecast_dates # minimizer
 # In[12]:
 
 server = flask.Flask(__name__)
-app = dash.Dash(__name__, server=server)
+app = dash.Dash(
+    __name__, 
+    server=server,
+    routes_pathname_prefix=os.getenv('DASH_DECLINE_PREFIX', '/')
+)
+
 
 wellnames = production_df_field["NPD_WELL_BORE_NAME"].unique()
 modelnames = ["Exponential Decline", "Hyperbolic Decline", "Harmonic Decline"]

@@ -234,10 +234,14 @@ production_df_field
 
 
 # In[20]:
-
 server = flask.Flask(__name__)
-app = dash.Dash(__name__, server=server,assets_folder="../assets") # Ensure server=server is passed he
-#app = dash.Dash(__name__,assets_folder="../assets")
+app = dash.Dash(
+    __name__, 
+    server=server,
+    assets_folder="../assets",
+    routes_pathname_prefix=os.getenv('DASH_COMP_PREFIX', '/')
+)
+
 poro_heatmap=go.Heatmap(x=x_real,y=y_real,z=poro_avg,colorscale="Viridis",colorbar={"title": "Porosity<br>frac"})
 perm_heatmap=go.Heatmap(x=x_real,y=y_real,z=perm_avg,colorscale="Viridis",colorbar={"title": "Permeability<br>md"})
 wellnames =production_df_field["NPD_WELL_BORE_NAME"].unique()

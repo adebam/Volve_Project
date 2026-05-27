@@ -192,7 +192,13 @@ df_poly = poly(polygon_file_path)
 
 
 server = flask.Flask(__name__)
-app = dash.Dash(__name__, server=server) 
+app = dash.Dash(
+    __name__, 
+    server=server,
+    # This automatically applies the prefix if run via wsgi.py, or defaults to '/' locally
+    routes_pathname_prefix=os.getenv('DASH_PROD_PREFIX', '/')
+)
+
 fig_wells = px.scatter_geo(production_df_field,lat="lat_dd",lon="lon_dd",hover_name="NPD_WELL_BORE_NAME")
 app.layout=html.Div([
                     # basic header
