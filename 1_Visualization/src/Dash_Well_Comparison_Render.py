@@ -270,7 +270,7 @@ app.layout=html.Div([
                                                                  ],
                                                                 value="BORE_OIL_VOL_STB",
                                                                 clearable=False,
-                                                         style={"position": "absolute", "top": "350px","left": "-55px","width": "150px","zIndex": 1000}
+                                                         style={"position": "absolute", "top": "350px","left": "-55px","width": "150px","zIndex": 1000,"transform": "translateY(-50%)"}
                                                         ),
                                             dcc.Dropdown(id="x_axis_dropdown",
                                                          options=[
@@ -280,9 +280,9 @@ app.layout=html.Div([
                                                                  ],
                                                                 value="DATEPRD",
                                                                 clearable=False,
-                                                         style={"position": "absolute", "transform": "rotate(0deg)","top": "670px","left": "480px","width": "150px","zIndex": 1000}
+                                                         style={"position": "absolute", "transform": "rotate(0deg) translateX(-50%)","top": "670px","left": "480px","width": "150px","zIndex": 1000}
                                                         )
-
+                                        
                                             ], style={"border": "1px solid gray","width": "50%","height": "50%","boxSizing": "border-box","position": "relative"}),
                                     # plot 2
                                     html.Div([
@@ -302,7 +302,7 @@ app.layout=html.Div([
                                                                  ],
                                                                 value="BORE_OIL_VOL_STB",
                                                                 clearable=False,
-                                                         style={"position": "absolute","top": "350px","left": "-55px","width": "150px","zIndex": 1000}
+                                                         style={"position": "absolute","top": "350px","left": "-55px","width": "150px","zIndex": 1000,"transform": "translateY(-50%)"}
                                                         ),
                                             dcc.Dropdown(id="x_axis_dropdown_2",
                                                          options=[
@@ -312,7 +312,7 @@ app.layout=html.Div([
                                                                  ],
                                                                 value="DATEPRD",
                                                                 clearable=False,
-                                                         style={"position": "absolute", "transform": "rotate(0deg)","top": "670px","left": "480px","width": "150px","zIndex": 1000}
+                                                         style={"position": "absolute", "transform": "rotate(0deg) translateX(-50%)","top": "670px","left": "480px","width": "150px","zIndex": 1000}
                                                         )
                                             ], style={"border": "1px solid gray","width": "50%","height": "50%","boxSizing": "border-box","position": "relative"}),
                                     #plot3
@@ -333,7 +333,7 @@ app.layout=html.Div([
                                                                  ],
                                                                 value="BORE_OIL_VOL_STB",
                                                                 clearable=False,
-                                                         style={"position": "absolute", "top": "350px","left": "-55px","width": "150px","zIndex": 1000}
+                                                         style={"position": "absolute", "top": "350px","left": "-55px","width": "150px","zIndex": 1000,"transform": "translateY(-50%)"}
                                                         ),
                                             dcc.Dropdown(id="x_axis_dropdown_3",
                                                          options=[
@@ -343,7 +343,7 @@ app.layout=html.Div([
                                                                  ],
                                                                 value="DATEPRD",
                                                                 clearable=False,
-                                                         style={"position": "absolute", "transform": "rotate(0deg)","top": "670px","left": "480px","width": "150px","zIndex": 1000}
+                                                         style={"position": "absolute", "transform": "rotate(0deg) translateX(-50%)","top": "670px","left": "480px","width": "150px","zIndex": 1000}
                                                         )
                                             ], style={"border": "1px solid gray","width": "50%","height": "50%","boxSizing": "border-box","position": "relative"}),
 
@@ -365,7 +365,7 @@ app.layout=html.Div([
                                                                  ],
                                                                 value="BORE_OIL_VOL_STB",
                                                                 clearable=False,
-                                                         style={"position": "absolute","top": "350px","left": "-55px","width": "150px","zIndex": 1000}
+                                                         style={"position": "absolute","top": "350px","left": "-55px","width": "150px","zIndex": 1000,"transform": "translateY(-50%)"}
                                                         ),
                                             dcc.Dropdown(id="x_axis_dropdown_4",
                                                          options=[
@@ -375,12 +375,12 @@ app.layout=html.Div([
                                                                  ],
                                                                 value="DATEPRD",
                                                                 clearable=False,
-                                                         style={"position": "absolute", "transform": "rotate(0deg)","top": "670px","left": "480px","width": "150px","zIndex": 1000}
+                                                         style={"position": "absolute", "transform": "rotate(0deg) translateX(-50%)","top": "670px","left": "480px","width": "150px","zIndex": 1000}
                                                         )
                                             ], style={"border": "1px solid gray","width": "50%","height": "50%","boxSizing": "border-box","position": "relative"}),
-
+        
                                     ], style={"display": "flex","flexWrap": "wrap", "width": "70vw","height": "95vh"}),
-
+        
                              # permeability and porosity heat map
                              html.Div([
                                      # poro
@@ -396,7 +396,7 @@ app.layout=html.Div([
                                                        style={"width": "100%", "height": "100%"}  # this style is for the graph itself
                                                        )
                                                 ],style={"border": "1px solid gray", "width": "100%", "height": "50%","overflow": "hidden" }), # this style is for layout of the div
-
+                    
                                      # permeability
                                      html.Div([
                                               dcc.Graph(id="perm",
@@ -409,22 +409,22 @@ app.layout=html.Div([
                                                         style={"width": "100%", "height": "100%"} # this style is for the graph itself
                                                        )
                                              ],style={"border": "1px solid gray", "width": "100%", "height": "50.1%","overflow": "hidden"}),  
-
+                                 
                                      ],style={"border": "1px solid gray", "display": "flex","width": "24vw","height": "95vh", "flexDirection": "column"}), # this style is for the perm and poro heatmap together        
-
+                                 
                            # Well Dropdown
                              html.Div([
                                      html.H3("Select Wells"),
                                      dcc.Checklist(id="well_checklist",options=wellnames,value=[]), # Make sure this list correspond to the well names you want.production_df_field  has eclipse wellnames and production wellnames but eclipse location. 
                                      ], style={"border": "1px solid gray","width": "5vw","padding": "10px"})
-
+                             
                              ], style={"display": "flex","width": "100vw","height": "95vh"})
+        
+    
+    
+    
 
-
-
-
-
-
+    
                     ],style={"border": "1px solid gray", "width": "100vw", "height": "100vh"})
 
 #--------------------------------------------------------------------------------------------------------------------
