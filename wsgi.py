@@ -30,6 +30,9 @@ def home():
                 li { margin: 15px 0; }
                 a { display: block; padding: 12px; background: #007bff; color: white; text-decoration: none; border-radius: 4px; text-align: center; transition: background 0.2s; }
                 a:hover { background: #0056b3; }
+                /* Distinct styling for the Google Drive video link */
+                .video-link { background: #28a745; }
+                .video-link:hover { background: #218838; }
             </style>
         </head>
         <body>
@@ -40,6 +43,7 @@ def home():
                     <li><a href="/production/">Production Dashboard</a></li>
                     <li><a href="/comparison/">Well Comparison Dashboard</a></li>
                     <li><a href="/decline/">Decline Curve Analysis</a></li>
+                    <li><a href="YOUR_GOOGLE_DRIVE_LINK_HERE" class="video-link" target="_blank">Project Presentation Videos</a></li>
                 </ul>
             </div>
         </body>
