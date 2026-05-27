@@ -260,7 +260,7 @@ app.layout=html.Div([
 
                             # div for all table
                     html.Div([
-                        html.H3("Decline Curve Parameters"),
+                        html.H3("Last 30 days Avg. Parameters"),
                         html.Div(id="well_name",style={"marginBottom": "25px"}),
                         dash_table.DataTable(
                             id="production_table",
