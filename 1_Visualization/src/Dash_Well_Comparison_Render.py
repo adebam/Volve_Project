@@ -234,7 +234,7 @@ production_df_field
 
 
 # In[20]:
-app2 = dash.Dash(
+app = dash.Dash(
     __name__,
     assets_folder="../assets",
     routes_pathname_prefix='/comparison/',
@@ -244,7 +244,7 @@ app2 = dash.Dash(
 poro_heatmap=go.Heatmap(x=x_real,y=y_real,z=poro_avg,colorscale="Viridis",colorbar={"title": "Porosity<br>frac"})
 perm_heatmap=go.Heatmap(x=x_real,y=y_real,z=perm_avg,colorscale="Viridis",colorbar={"title": "Permeability<br>md"})
 wellnames =production_df_field["NPD_WELL_BORE_NAME"].unique()
-app2.layout=html.Div([
+app.layout=html.Div([
                     # basic header
                      html.Div([html.H1('Well Comparison Dashboard')],style={"border": "1px solid black","height": "4vh","textAlign": "center"}),
                     # three column div
@@ -428,7 +428,7 @@ app2.layout=html.Div([
 #--------------------------------------------------------------------------------------------------------------------
 # update heatmap with wells location
 #---------------------------------------------------------------------------------------------------------------------
-@app2.callback(Output("porosity", "figure"),
+@app.callback(Output("porosity", "figure"),
               [Input("well_checklist", "value")])
 def update_poro_heatmap(selected_wells):
     fig = go.Figure()
@@ -444,7 +444,7 @@ def update_poro_heatmap(selected_wells):
 
     return fig
 
-@app2.callback(Output("perm", "figure"),
+@app.callback(Output("perm", "figure"),
               [Input("well_checklist", "value")])
 def update_perm_heatmap(selected_wells):
     fig = go.Figure()
@@ -465,7 +465,7 @@ def update_perm_heatmap(selected_wells):
 # update the production plots
 #---------------------------------------------------------------------------------------------------------------------
 # plot1
-@app2.callback(Output("plot1", "figure"),
+@app.callback(Output("plot1", "figure"),
               [Input("well_checklist", "value"),
                Input("y_axis_dropdown", "value"),
               Input("x_axis_dropdown", "value")])
@@ -485,7 +485,7 @@ def plot1(selected_wells,y_axis,x_axis):
     return fig
 
 # plot2
-@app2.callback(Output("plot2", "figure"),
+@app.callback(Output("plot2", "figure"),
               [Input("well_checklist", "value"),
                Input("y_axis_dropdown_2", "value"),
               Input("x_axis_dropdown_2", "value")])
@@ -505,7 +505,7 @@ def plot2(selected_wells,y_axis,x_axis):
     return fig
 
 # plot3
-@app2.callback(Output("plot3", "figure"),
+@app.callback(Output("plot3", "figure"),
               [Input("well_checklist", "value"),
                Input("y_axis_dropdown_3", "value"),
               Input("x_axis_dropdown_3", "value")])
@@ -525,7 +525,7 @@ def plot3(selected_wells,y_axis,x_axis):
     return fig
 
 #plot4
-@app2.callback(Output("plot4", "figure"),
+@app.callback(Output("plot4", "figure"),
               [Input("well_checklist", "value"),
                Input("y_axis_dropdown_4", "value"),
               Input("x_axis_dropdown_4", "value")])
@@ -545,7 +545,7 @@ def plot4(selected_wells,y_axis,x_axis):
     return fig
 
 if __name__ == '__main__':
-    app2.run()
+    app.run()
 
 
 # In[ ]:

@@ -1,24 +1,19 @@
 # wsgi.py
-import dash
 import sys
 import os
-from dash import html, dcc
-from dash.dependencies import Input, Output
 from flask import Flask, render_template_string
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 
 # Force Python to see inside your visualization source folder
 sys.path.append(os.path.join(os.path.dirname(__file__), '1_Visualization', 'src'))
 
-# Clean, safe imports
+# IMPORT AND RENAME HERE (Keeps your dashboard files clean!)
 from Dash_Production__Render import app as app1
 from Dash_Well_Comparison_Render import app as app2
 from Dash_Decline_Curve_Render import app as app3
 
-# 1. Create a central Flask server to act as the main traffic controller
 server = Flask(__name__)
 
-# 2. Design a clean, simple landing page layout for your root URL (/)
 @server.route('/')
 def home():
     return render_template_string('''
@@ -38,23 +33,20 @@ def home():
             </style>
         </head>
         <body>
-            <div class=\"container\">
+            <div class="container">
                 <h1>Volve Project Analytics</h1>
                 <p>Select a dashboard module to view the production data:</p>
                 <ul>
-                    <li><a href=\"/production/\">Production Dashboard</a></li>
-                    <li><a href=\"/comparison/\">Well Comparison Dashboard</a></li>
-                    <li><a href=\"/decline/\">Decline Curve Analysis</a></li>
+                    <li><a href="/production/">Production Dashboard</a></li>
+                    <li><a href="/comparison/">Well Comparison Dashboard</a></li>
+                    <li><a href="/decline/">Decline Curve Analysis</a></li>
                 </ul>
             </div>
         </body>
         </html>
     ''')
 
-# 3. REMOVED: The crashing app.config.update() statements are gone!
-# They are safely declared in their respective constructor files now.
-
-# 4. Bind the 3 isolated dash apps to their respective Flask sub-paths via middleware
+# Bind the 3 isolated dash apps to their respective Flask sub-paths
 server.wsgi_app = DispatcherMiddleware(server.wsgi_app, {
     '/production': app1.server,
     '/comparison': app2.server,

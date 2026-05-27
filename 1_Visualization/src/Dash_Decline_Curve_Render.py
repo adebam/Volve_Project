@@ -162,12 +162,11 @@ from Decline_curve import forecast_dates # minimizer
 
 # In[12]:
 
-app3 = dash.Dash(
-    __name__, 
+app = dash.Dash(
+    __name__,
     routes_pathname_prefix='/decline/',
     requests_pathname_prefix='/decline/'
 )
-
 
 wellnames = production_df_field["NPD_WELL_BORE_NAME"].unique()
 modelnames = ["Exponential Decline", "Hyperbolic Decline", "Harmonic Decline"]
@@ -190,7 +189,7 @@ eur_unit_labels = {
 }
 
 # --- Layout Configuration ---
-app3.layout = html.Div([
+app.layout = html.Div([
     html.Div([html.H1('Decline Curve Analysis')], style={"border": "1px solid black", "height": "4vh", "textAlign": "center"}),
 
     html.Div([ 
@@ -263,7 +262,7 @@ app3.layout = html.Div([
 # ====================================================================================================================
 # CALLBACK 1: Cache data selections safely
 # ====================================================================================================================
-@app3.callback(
+@app.callback(
     Output("stored_selection", "data"),
     Input("decline_curve", "selectedData"),
     State("stored_selection", "data")
@@ -277,7 +276,7 @@ def store_selection(graph_selection, currently_stored):
 # ====================================================================================================================
 # UNIFIED CALLBACK 2: Renders Figure, Fits Arps Models, Generates Line Overlays, Forecasts & Table Rows
 # ====================================================================================================================
-@app3.callback(
+@app.callback(
     [Output("decline-params-store", "data"),
      Output("decline_curve", "figure"),
      Output("dca_parameter_table", "data")],
@@ -401,7 +400,7 @@ def update_plot_and_table(selected_well, phase, selected_models, stored_data, fo
         return dash.no_update, dash.no_update, dash.no_update 
 
 if __name__ == '__main__':
-    app3.run(debug=True)
+    app.run(debug=True)
 
 
 # In[ ]:
