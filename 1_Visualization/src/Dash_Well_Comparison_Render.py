@@ -280,7 +280,7 @@ app.layout=html.Div([
                                                                  ],
                                                                 value="DATEPRD",
                                                                 clearable=False,
-                                                         style={"position": "absolute",  "transform": "translateX(-50%)","width": "150px",  "zIndex": 1000, "left": "50%","bottom": "55px"}
+                                                         style={"position": "absolute",  "transform": "translateX(-50%)","width": "150px",  "zIndex": 1000,"left": "50%","bottom": "7%" }
                                                         )
                                         
                                             ], style={"border": "1px solid gray","width": "50%","height": "50%","boxSizing": "border-box","position": "relative"}),
@@ -343,7 +343,7 @@ app.layout=html.Div([
                                                                  ],
                                                                 value="DATEPRD",
                                                                 clearable=False,
-                                                         style={"position": "absolute", "transform": "rotate(0deg) translateX(-50%)","top": "670px","left": "480px","width": "150px","zIndex": 1000}
+                                                         style={"position": "absolute",  "transform": "translateX(-50%)","width": "150px",  "zIndex": 1000,"left": "50%","bottom": "7%" }
                                                         )
                                             ], style={"border": "1px solid gray","width": "50%","height": "50%","boxSizing": "border-box","position": "relative"}),
 
@@ -375,7 +375,7 @@ app.layout=html.Div([
                                                                  ],
                                                                 value="DATEPRD",
                                                                 clearable=False,
-                                                         style={"position": "absolute", "transform": "rotate(0deg) translateX(-50%)","top": "670px","left": "480px","width": "150px","zIndex": 1000}
+                                                         style={"position": "absolute",  "transform": "translateX(-50%)","width": "150px",  "zIndex": 1000,"left": "50%","bottom": "7%" }
                                                         )
                                             ], style={"border": "1px solid gray","width": "50%","height": "50%","boxSizing": "border-box","position": "relative"}),
         
