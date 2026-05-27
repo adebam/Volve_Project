@@ -43,7 +43,7 @@ def home():
                     <li><a href="/production/">Production Dashboard</a></li>
                     <li><a href="/comparison/">Well Comparison Dashboard</a></li>
                     <li><a href="/decline/">Decline Curve Analysis</a></li>
-                    <li><a href="YOUR_GOOGLE_DRIVE_LINK_HERE" class="video-link" target="_blank">Project Presentation Videos</a></li>
+                    <li><a href="https://drive.google.com/file/d/1Pz_5VcbUI8Ji1sQFz0V4vMw6c4dc0JN7/view?usp=sharing" class="video-link" target="_blank">Production Dashboard Video</a></li>
                 </ul>
             </div>
         </body>
