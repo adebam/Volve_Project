@@ -191,16 +191,14 @@ df_poly = poly(polygon_file_path)
 # In[25]:
 
 
-server = flask.Flask(__name__)
-app = dash.Dash(
+app1 = dash.Dash(
     __name__, 
-    server=server,
-    # This automatically applies the prefix if run via wsgi.py, or defaults to '/' locally
-    routes_pathname_prefix=os.getenv('DASH_PROD_PREFIX', '/')
+    routes_pathname_prefix='/production/',
+    requests_pathname_prefix='/production/'
 )
 
 fig_wells = px.scatter_geo(production_df_field,lat="lat_dd",lon="lon_dd",hover_name="NPD_WELL_BORE_NAME")
-app.layout=html.Div([
+app1.layout=html.Div([
                     # basic header
                      html.Div([html.H1('Production DashBoard')],style={"border": "1px solid black","height": "8vh","textAlign": "center"}),   
                      # Dropdown
@@ -288,7 +286,7 @@ app.layout=html.Div([
 #--------------------------------------------------------------------------------------------------------------------
 # start of making the production plots
 #---------------------------------------------------------------------------------------------------------------------
-@app.callback(Output("Production_plot", "figure"),
+@app1.callback(Output("Production_plot", "figure"),
               [Input("xy_map", "selectedData")])
 def plot_production(selectedData):
 
@@ -338,7 +336,7 @@ def plot_production(selectedData):
 # start of the gauges
 #---------------------------------------------------------------------------------------------------------------------
 # Oil gague   
-@app.callback(Output("Oil_gauge", "figure"),
+@app1.callback(Output("Oil_gauge", "figure"),
               [Input("xy_map", "selectedData")])
 def Oil_gauge(selectedData):
     if not selectedData or not selectedData.get("points"):
@@ -372,7 +370,7 @@ def Oil_gauge(selectedData):
     return fig
 
 # Gas gague 
-@app.callback(Output("Gas_gauge", "figure"),
+@app1.callback(Output("Gas_gauge", "figure"),
               [Input("xy_map", "selectedData")])
 def Gas_gauge(selectedData):
     if not selectedData or not selectedData.get("points"):
@@ -406,7 +404,7 @@ def Gas_gauge(selectedData):
     return fig
 
 # Water gague 
-@app.callback(Output("Water_gauge", "figure"),
+@app1.callback(Output("Water_gauge", "figure"),
               [Input("xy_map", "selectedData")])
 def Water_gauge(selectedData):
     if not selectedData or not selectedData.get("points"):
@@ -443,7 +441,7 @@ def Water_gauge(selectedData):
 # start of the table
 #---------------------------------------------------------------------------------------------------------------------
 # Oil output text
-@app.callback([Output("production_table", "data"),
+@app1.callback([Output("production_table", "data"),
               Output("well_name", "children")],
               [Input("xy_map", "selectedData"),])
 def update_table(selectedData):
@@ -467,5 +465,5 @@ def update_table(selectedData):
 
 
 if __name__ == '__main__':
-    app.run()
+    app1.run()
 

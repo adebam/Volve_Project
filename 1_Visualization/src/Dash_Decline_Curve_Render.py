@@ -26,7 +26,7 @@ import traceback
 from pathlib import Path
 import re
 import os
-import flask
+#import flask
 
 
 # In[2]:
@@ -162,11 +162,10 @@ from Decline_curve import forecast_dates # minimizer
 
 # In[12]:
 
-server = flask.Flask(__name__)
-app = dash.Dash(
+app3 = dash.Dash(
     __name__, 
-    server=server,
-    routes_pathname_prefix=os.getenv('DASH_DECLINE_PREFIX', '/')
+    routes_pathname_prefix='/decline/',
+    requests_pathname_prefix='/decline/'
 )
 
 
@@ -191,7 +190,7 @@ eur_unit_labels = {
 }
 
 # --- Layout Configuration ---
-app.layout = html.Div([
+app3.layout = html.Div([
     html.Div([html.H1('Decline Curve Analysis')], style={"border": "1px solid black", "height": "4vh", "textAlign": "center"}),
 
     html.Div([ 
@@ -264,7 +263,7 @@ app.layout = html.Div([
 # ====================================================================================================================
 # CALLBACK 1: Cache data selections safely
 # ====================================================================================================================
-@app.callback(
+@app3.callback(
     Output("stored_selection", "data"),
     Input("decline_curve", "selectedData"),
     State("stored_selection", "data")
@@ -278,7 +277,7 @@ def store_selection(graph_selection, currently_stored):
 # ====================================================================================================================
 # UNIFIED CALLBACK 2: Renders Figure, Fits Arps Models, Generates Line Overlays, Forecasts & Table Rows
 # ====================================================================================================================
-@app.callback(
+@app3.callback(
     [Output("decline-params-store", "data"),
      Output("decline_curve", "figure"),
      Output("dca_parameter_table", "data")],
@@ -402,7 +401,7 @@ def update_plot_and_table(selected_well, phase, selected_models, stored_data, fo
         return dash.no_update, dash.no_update, dash.no_update 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app3.run(debug=True)
 
 
 # In[ ]:
