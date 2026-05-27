@@ -51,20 +51,25 @@ def home():
     ''')
 
 # 3. CRITICAL STEP: Configure Dash requests paths to respect the sub-directories
-app1.config.update({
-    'routes_pathname_prefix': '/production/',
-    'requests_pathname_prefix': '/production/'
-})
+app1 = dash.Dash(
+    __name__,
+    routes_pathname_prefix='/production/',
+    requests_pathname_prefix='/production/'
+)
 
-app2.config.update({
-    'routes_pathname_prefix': '/comparison/',
-    'requests_pathname_prefix': '/comparison/'
-})
+app2 = dash.Dash(
+    __name__,
+    routes_pathname_prefix='/comparison/',
+    requests_pathname_prefix='/comparison/'
+)
 
-app3.config.update({
-    'routes_pathname_prefix': '/decline/',
-    'requests_pathname_prefix': '/decline/'
-})
+app3 = dash.Dash(
+    __name__,
+    routes_pathname_prefix='/decline/',
+    requests_pathname_prefix='/decline/'
+)
+
+
 
 # 4. Bind the 3 isolated dash apps to their respective Flask sub-paths
 server.wsgi_app = DispatcherMiddleware(server.wsgi_app, {
