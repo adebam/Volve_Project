@@ -237,7 +237,7 @@ production_df_field
 app = dash.Dash(
     __name__,
     assets_folder="../assets",
-    routes_pathname_prefix='/comparison/',
+    routes_pathname_prefix='/',
     requests_pathname_prefix='/comparison/'
 )
 

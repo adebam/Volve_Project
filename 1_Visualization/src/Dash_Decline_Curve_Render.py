@@ -164,7 +164,7 @@ from Decline_curve import forecast_dates # minimizer
 
 app = dash.Dash(
     __name__,
-    routes_pathname_prefix='/decline/',
+    routes_pathname_prefix='/',
     requests_pathname_prefix='/decline/'
 )
 app3 = app

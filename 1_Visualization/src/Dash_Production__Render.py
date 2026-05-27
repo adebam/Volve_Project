@@ -193,7 +193,7 @@ df_poly = poly(polygon_file_path)
 
 app = dash.Dash(
     __name__,
-    routes_pathname_prefix='/production/',
+    routes_pathname_prefix='/',
     requests_pathname_prefix='/production/'
 )
 
