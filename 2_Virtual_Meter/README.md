@@ -166,138 +166,252 @@ Consequently, one-step forecasting provides a strong benchmark for evaluating wh
 
 #### Recursive Model
 For recursive forecasting, each new prediction is fed back into the model to generate the following prediction. Since the error might propagate from day to day, the model will need to be updated from real data at a particular interval.
-## Recursive Multi-Day Forecasting
 
-For the first forecast day, the model uses the latest available actual production values and operating measurements:
 
-```markdown
-$$
-\hat{y}_{t+1}
-=
-f\left(
-y_t,\,
-y_{t-1},\,
-\mathrm{WHP}_t,\,
-\mathrm{choke}_t,\,
-\mathrm{on\text{-}stream\ hours}_t
-\right)
-$$
-```
+For the first forecast day, the model uses the latest available actual production and operating measurements:
 
-For the second forecast day, the actual production rate at (t+1) is not yet available. Therefore, the model feeds its Day 1 prediction back into the feature set:
+$$
+\hat{y}_{t+1} = f\left( y_t,\, y_{t-1},\, \text{WHP}_t,\, \text{choke}_t,\, \text{on-stream hours}_t \right)
+$$
 
-```markdown
-$$
-\hat{y}_{t+2}
-=
-f\left(
-\hat{y}_{t+1},\,
-y_t,\,
-\widehat{\mathrm{WHP}}_{t+1},\,
-\mathrm{choke}_{t+1}^{\mathrm{planned}},\,
-\widehat{\mathrm{on\text{-}stream\ hours}}_{t+1}
-\right)
-$$
-```
+For the second forecast day, the actual production value at $t+1$ is not yet available. Therefore, the model uses its previous prediction:
 
-For the third forecast day, the model again uses its previous predictions:
+$$
+\hat{y}_{t+2} = f\left( \hat{y}_{t+1},\, y_t,\, \widehat{\text{WHP}}_{t+1},\, \text{choke}_{t+1},\, \widehat{\text{on-stream hours}}_{t+1} \right)
+$$
 
-```markdown
-$$
-\hat{y}_{t+3}
-=
-f\left(
-\hat{y}_{t+2},\,
-\hat{y}_{t+1},\,
-\widehat{\mathrm{WHP}}_{t+2},\,
-\mathrm{choke}_{t+2}^{\mathrm{planned}},\,
-\widehat{\mathrm{on\text{-}stream\ hours}}_{t+2}
-\right)
-$$
-```
+For the third forecast day, the model again uses its earlier predictions:
 
-More generally, the recursive forecast at horizon (h) can be represented as:
+$$
+\hat{y}_{t+3} = f\left( \hat{y}_{t+2},\, \hat{y}_{t+1},\, \widehat{\text{WHP}}_{t+2},\, \text{choke}_{t+2},\, \widehat{\text{on-stream hours}}_{t+2} \right)
+$$
 
-```markdown
+More generally, the recursive forecast can be represented as:
+
 $$
-\hat{y}_{t+h}
-=
-f\left(
-\hat{y}_{t+h-1},\,
-\hat{y}_{t+h-2},\,
-\widehat{X}_{t+h-1}
-\right)
+\hat{y}_{t+h} = f\left( \hat{y}_{t+h-1},\, \hat{y}_{t+h-2},\, X_{t+h} \right)
 $$
-```
 
 where:
 
-```markdown
 $$
-\widehat{X}_{t+h-1}
-=
-\left(
-\widehat{\mathrm{WHP}}_{t+h-1},\,
-\mathrm{choke}_{t+h-1}^{\mathrm{planned}},\,
-\widehat{\mathrm{on\text{-}stream\ hours}}_{t+h-1}
-\right)
+X_{t+h} = \left( \text{future-known, planned, or separately forecasted variables} \right)
 $$
+
+
+```mermaid
+graph TD
+    A[Latest Actual Separator and Sensor Data] --> B[Predict Day 1]
+    B --> C[Use Predicted Day 1 to Predict Day 2]
+    C --> D[Continue Recursive Predictions]
+    D --> E[Reach End of Forecast Horizon]
+    E --> F[Obtain New Actual Oil, Gas, and Water Rates]
+    F --> G[Replace Forecasted Rates with Actual Measured Rates]
+    G --> H[Update Historical Data and Recalculate Features]
+    H --> I[Begin the Next Forecast Horizon]
+    I --> B
+
+    style A fill:#d4edda,stroke:#28a745,stroke-width:2px
+    style E fill:#fff3cd,stroke:#ffc107,stroke-width:2px
+    style F fill:#d1ecf1,stroke:#17a2b8,stroke-width:2px
+    style G fill:#d4edda,stroke:#28a745,stroke-width:2px
 ```
 
-The vector (\widehat{X}_{t+h-1}) contains operating variables that are either:
+In recursive forecasting, the model should not use the actual future production rate:
 
-* known in advance;
-* based on an operational plan;
-* held constant using the most recent observation; or
-* predicted separately before generating the production forecast.
+$$
+\hat{y}_{t+2} \neq f\left( y_{t+1}^{\text{actual}} \right)
+$$
 
-The recursive forecasting process is therefore:
+because $y_{t+1}^{\text{actual}}$ is not yet known when the complete multi-day forecast is generated. Instead, the model uses:
+
+$$
+\hat{y}_{t+2} = f\left( \hat{y}_{t+1} \right)
+$$
+
+This is the main difference between one-step walk-forward forecasting and recursive multi-day forecasting. In one-step forecasting, the actual value becomes available before the next prediction is generated. In recursive forecasting, previous predictions are reused because the actual future values are unavailable.
+
+A limitation of this approach is that forecast errors can accumulate:
+
+$$
+\text{error at } t+1 \longrightarrow \text{input error at } t+2 \longrightarrow \text{larger errors at later horizons}
+$$
+
+In practice, the model may also use several previous predicted or measured lags, depending on the features selected during training. However, the most recent actual separator measurement becomes the primary anchor for the next forecast cycle. This periodic correction prevents prediction errors from propagating indefinitely. Predictions may drift during the recursive forecast horizon, but the arrival of new measured oil, gas, and water rates resets the model to the observed well condition.
+
+For a 30-day virtual-metering recursive workflow, the process becomes:
 
 ```text
-Actual history through time t
-            |
-            v
-Predict y(t+1)
-            |
-            v
-Use predicted y(t+1) to predict y(t+2)
-            |
-            v
-Use predicted y(t+1) and y(t+2) to predict y(t+3)
-            |
-            v
-Continue until the required forecast horizon is reached
+Actual separator rates on Day 0
+         |
+         v
+Recursively predict Days 1–30
+         |
+         v
+Receive actual separator rates on Day 30
+         |
+         v
+Replace the Day 30 forecast with the measured rates
+         |
+         v
+Update production history and recalculate features
+         |
+         v
+Recursively predict Days 31–60
 ```
 
-The model must not use actual future production or sensor measurements that would be unavailable when the forecast is generated:
+Therefore, the virtual meter operates as a sequence of recursive forecast blocks separated by periodic measurement updates. Each new separator measurement corrects the model’s production history and provides the starting condition for the next forecast horizon.
 
-```markdown
-$$
-\hat{y}_{t+h}
-\neq
-f\left(
-y_{t+h-1}^{\mathrm{actual}},\,
-\mathrm{WHP}_{t+h-1}^{\mathrm{actual}}
-\right)
-$$
+### Direct Forecasting
+## Direct Multi-Day Forecasting
+
+In direct forecasting, a separate model is trained for each forecast horizon. Rather than using one prediction as an input for the next prediction, the model predicts each future day directly from the information available at the forecast origin.
+
+For the first forecast day:
+
+\[\hat{y}_{t+1} = f_1\left( y_t,\, y_{t-1},\, \mathrm{WHP}_t,\, \mathrm{choke}_t,\, \mathrm{on\text{-}stream\ hours}_t \right)\]
+
+For the second forecast day:
+
+\[\hat{y}_{t+2} = f_2\left( y_t,\, y_{t-1},\, \mathrm{WHP}_t,\, \mathrm{choke}_t,\, \mathrm{on\text{-}stream\ hours}_t \right)\]
+
+For the third forecast day:
+
+\[\hat{y}_{t+3} = f_3\left( y_t,\, y_{t-1},\, \mathrm{WHP}_t,\, \mathrm{choke}_t,\, \mathrm{on\text{-}stream\ hours}_t \right)\]
+
+More generally, the direct forecast at horizon \(h\) can be represented as:
+
+\[\hat{y}_{t+h} = f_h\left( \mathbf{Z}_t \right)\]
+
+where:
+
+\[\mathbf{Z}_t = \left( y_t,\, y_{t-1},\, y_{t-2},\, \mathbf{X}_t,\, \text{rolling features}_t,\, \text{trend features}_t \right)\]
+
+The vector \(\mathbf{Z}_t\) contains all production history, sensor measurements, operating conditions, and engineered features available at the forecast origin. The complete direct forecast for a horizon of \(H\) days is:
+
+\[\hat{\mathbf{y}}_{t+1:t+H} = \left( \hat{y}_{t+1},\, \hat{y}_{t+2},\, \ldots,\, \hat{y}_{t+H} \right)\]
+
+Each forecast horizon is generated independently:
+
+\[\hat{y}_{t+h} = f_h\left( \mathbf{Z}_t \right), \qquad h=1,2,\ldots,H\]
+
+Unlike recursive forecasting, the prediction for Day 1 is not used to generate the prediction for Day 2:
+
+\[\hat{y}_{t+2} \neq f\left( \hat{y}_{t+1} \right)\]
+
+Instead:
+
+\[\hat{y}_{t+2} = f_2\left( \mathbf{Z}_t \right)\]
+
+This prevents prediction errors from being passed from one forecast day to the next.
+
+### Forecast Pipeline Flow
+
+```mermaid
+graph TD
+    A[Latest Actual Separator and Sensor Data] --> B[Create Features at Forecast Origin]
+    B --> C1[Direct Model for Day 1]
+    B --> C2[Direct Model for Day 2]
+    B --> C3[Direct Model for Day 3]
+    B --> C4[Direct Model for Remaining Horizons]
+    C1 --> D[Combine All Horizon Predictions]
+    C2 --> D
+    C3 --> D
+    C4 --> D
+    D --> E[Complete Multi-Day Forecast]
+    E --> F[Reach End of Forecast Horizon]
+    F --> G[Obtain New Actual Oil, Gas, and Water Rates]
+    G --> H[Retain Forecast for Performance Evaluation]
+    G --> I[Update Model History with Actual Measured Rates]
+    I --> J[Recalculate Lagged and Rolling Features]
+    J --> K[Begin the Next Direct Forecast Horizon]
+    K --> B
+
+    style A fill:#d4edda,stroke:#28a745,stroke-width:2px
+    style E fill:#fff3cd,stroke:#ffc107,stroke-width:2px
+    style G fill:#d1ecf1,stroke:#17a2b8,stroke-width:2px
+    style I fill:#d4edda,stroke:#28a745,stroke-width:2px
 ```
 
-Instead, it must use previous predictions and future-known, planned, assumed, or separately forecasted operating conditions:
 
-```markdown
+At the beginning of the forecast period, all future horizon predictions are generated using the same information available at time $t$:
+
 $$
-\hat{y}_{t+h}
-=
-f\left(
-\hat{y}_{t+h-1},\,
-\hat{y}_{t+h-2},\,
-\widehat{X}_{t+h-1}
-\right)
+\left\{ \hat{y}_{t+1},\, \hat{y}_{t+2},\, \ldots,\, \hat{y}_{t+H} \right} = \left\{ f_1(\mathbf{Z}_t),\, f_2(\mathbf{Z}_t),\, \ldots,\, f_H(\mathbf{Z}_t) \right\}
 $$
+
+The model does not wait for the Day 1 prediction before calculating the Day 2 prediction. All forecast horizons can be generated at the same time.
+
+At the end of the forecast horizon, a new separator measurement becomes available. The final predicted oil, gas, and water rates are compared with the actual measured phase rates:
+
+$$
+\hat{\mathbf{y}}_{t+H} \longrightarrow \mathbf{y}_{t+H}^{\mathrm{actual}}
+$$
+
+where:
+
+$$
+\mathbf{y}_{t+H}^{\mathrm{actual}} = \left( y_{t+H}^{\mathrm{oil}},\, y_{t+H}^{\mathrm{gas}},\, y_{t+H}^{\mathrm{water}} \right)
+$$
+
+The forecasted values should be retained for model evaluation:
+
+$$
+\mathbf{e}_{t+H} = \mathbf{y}_{t+H}^{\mathrm{actual}} - \hat{\mathbf{y}}_{t+H}
+$$
+
+However, the actual measured phase rates should be used when updating the production history for the next forecast cycle:
+
+$$
+\mathcal{H}_{t+H} = \mathcal{H}_t \cup \left\{ \mathbf{y}_{t+H}^{\mathrm{actual}},\, \mathbf{X}_{t+H}^{\mathrm{actual}} \right\}
+$$
+
+where $\mathcal{H}_{t+H}$ represents the updated production and operating history. The next direct forecast block is then generated from the updated feature vector:
+
+$$
+\mathbf{Z}_{t+H} = g\left( \mathcal{H}_{t+H} \right)
+$$
+
+and:
+
+$$
+\hat{y}_{t+H+h} = f_h\left( \mathbf{Z}_{t+H} \right), \qquad h=1,2,\ldots,H
+$$
+
+
+For a 30-day virtual-metering workflow, the process becomes:
+
+```text
+Actual separator rates on Day 0
+         |
+         v
+Generate direct predictions for Days 1–30
+         |
+         v
+No predicted day is used to generate another predicted day
+         |
+         v
+Receive actual separator rates on Day 30
+         |
+         v
+Compare the Day 30 prediction with the measured rates
+         |
+         v
+Retain both predicted and actual values for evaluation
+         |
+         v
+Update production history using the actual Day 30 rates
+         |
+         v
+Recalculate features
+         |
+         v
+Generate direct predictions for Days 31–60
 ```
 
-Because each predicted production rate becomes an input for the next forecast step, errors can accumulate as the forecast horizon increases. This error propagation is one of the main limitations of recursive multi-day forecasting.
+The main advantage of direct forecasting is that prediction errors do not propagate from one forecast day to the next. However, a separate model, target, or output is required for each forecast horizon, and the accuracy may decrease for longer horizons because all predictions are based on information available at the original forecast date.
 
+For virtual metering, the direct approach is useful when separator measurements are available only periodically. A complete 30-day oil, gas, and water forecast can be generated immediately after each separator test. When the next separator measurement becomes available, the actual measured rates update the model history and anchor the next 30-day forecast cycle.
 
 
 ## Technologies
