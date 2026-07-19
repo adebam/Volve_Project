@@ -1,0 +1,35 @@
+name: volve_project_virtual_meter
+channels:
+  - conda-forge
+dependencies:
+  - black
+  - dash
+  - feature_engine
+  - featuretools>=1.2.0
+  - flask
+  - ipykernel
+  - ipython
+  - jupyter_server
+  - jupyterlab
+  - jupyterlab-git
+  - lightgbm
+  - lmfit
+  - lxml
+  - matplotlib
+  - notebook
+  - notebook_intelligence
+  - numpy
+  - openpyxl
+  - optuna
+  - pandas
+  - pipreqs
+  - plotly
+  - pmdarima
+  - pyproj
+  - python=3.11
+  - scikit-learn
+  - scipy
+  - seaborn
+  - sktime
+  - streamlit
+  
