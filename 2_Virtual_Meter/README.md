@@ -60,9 +60,9 @@ The project also evaluates the model’s ability to forecast future production, 
 ```
 
 ## Overall Workflow
-### Why Time-Series Analysis is Diffent than other Machine Learning Applications
+### Why Time-Series Analysis is Different than other Machine Learning Applications
 
-Time-series analysis is essential in virtual flow metering because oil, gas, and water production measurements are collected sequentially over time. In addition, the oil, gas and water are produced at the sametime A well’s current production rate is influenced by its previous production, pressure history, choke settings, operating hours, shutdowns, reservoir depletion, and other earlier operating conditions and reservoir conditions. Therefore, the order in which the observations occur contains valuable information that should not be ignored.
+Time-series analysis is essential in virtual flow metering because oil, gas, and water production measurements are collected sequentially over time. In addition, the oil, gas and water are produced at the sametime, a well’s current production rate is influenced by its previous production, pressure history, choke settings, operating hours, shutdowns, reservoir depletion, and other earlier operating conditions and reservoir conditions. Therefore, the order in which the observations occur contains valuable information that should not be ignored.
 
 In many traditional machine-learning applications, observations are assumed to be largely independent and identically distributed. For example, when predicting house prices, the order in which houses appear in the dataset usually has no physical meaning. The data can often be randomly shuffled before being divided into training and testing sets.
 
