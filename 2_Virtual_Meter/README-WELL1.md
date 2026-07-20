@@ -77,15 +77,18 @@ Although the three phase-specific Lasso models selected a total of 16 features, 
 
 The transformer also force-retained 10 lags based on engineering knowledge and short-term forecasting requirements. Because one force-kept lag was already present in the Lasso-selected union, the final feature set contained 21 unique lag features:
 
-$$
-\begin{aligned}
-& 12 \text{ Lasso-selected features} \\
-+ \quad & 10 \text{ force-kept features} \\
-- \quad & 1 \text{ overlapping feature} \\
-\hline
-& \mathbf{21 \text{ final lag features}}
-\end{aligned}
-$$
+
+| Feature Type | Count |
+| :--- | :--- |
+| Lasso-selected features | 12 |
+| Force-kept features | + 10 |
+| Overlapping feature | - 1 |
+| **Final lag features** | **21** |
+| | |
+| Original columns | 13 |
+| Selected lag features | + 21 |
+| **Total Transformed Columns** | **34** |
+
 
 
 The final transformed dataframe contained:
