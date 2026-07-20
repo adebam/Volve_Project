@@ -78,14 +78,15 @@ Although the three phase-specific Lasso models selected a total of 16 features, 
 The transformer also force-retained 10 lags based on engineering knowledge and short-term forecasting requirements. Because one force-kept lag was already present in the Lasso-selected union, the final feature set contained 21 unique lag features:
 
 $$
-\begin{matrix}
+\begin{aligned}
 & 12 \text{ Lasso-selected features} \\
-+ & 10 \text{ force-kept features} \\
-- & 1 \text{ overlapping feature} \\
++ \quad & 10 \text{ force-kept features} \\
+- \quad & 1 \text{ overlapping feature} \\
 \hline
 & \mathbf{21 \text{ final lag features}}
-\end{matrix}
+\end{aligned}
 $$
+
 
 The final transformed dataframe contained:
 
@@ -665,7 +666,7 @@ The final 30-day recursive hybrid model performed well for oil and gas, with RMS
 
 Water performance was considerably weaker, with an RMSE of **3,922.59 STB/D**. Although most water predictions followed the general production pattern, one extreme LightGBM spike substantially increased the RMSE. This indicates that the water model requires prediction limits, anomaly detection, or reconsideration before deployment.
 
-Overall, the unseen test results support the selected Gradient Boosting models for oil and gas, while the LightGBM water model remains the main limitation of the final virtual-metering system.
+Overall, the unseen test results support the selected Gradient Boosting models for oil and gas, while the LightGBM water model remains the main limitation of the final virtual-metering system, as it overfited the data.
 
 The model is now ready for deployment!
 
