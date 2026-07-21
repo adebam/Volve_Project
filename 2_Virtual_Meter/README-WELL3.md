@@ -60,17 +60,17 @@ For these reasons, Well 3 is expected to be more difficult to forecast than Well
 ### Result on Validation Dataset
 <p align="center">
   <img src="pictures/Well3_final_model_validation_7day_recursive.png" alt="7 days horizon"><br>
-  <i>Figure 4: Best performing recursive models for well 3. 7 days horizon><br>
+  <i>Figure 4: Best performing recursive models for well 3. 7 days horizon.</i><br>
 </p>
 
 <p align="center">
   <img src="pictures/Well3_final_model_validation_14day_recursive.png" alt="14 days horizon"><br>
-  <i>Figure 5: Best performing recursive models for well 3. 14 days horizon><br>
+  <i>Figure 5: Best performing recursive models for well 3. 14 days horizon.</i><br>
 </p>
 
 <p align="center">
   <img src="pictures/Well3_final_model_validation_30day_recursive.png" alt="30 days horizon"><br>
-  <i>Figure 6: Best performing recursive models for well 3. 30 days horizon><br>
+  <i>Figure 6: Best performing recursive models for well 3. 30 days horizon.</i><br>
 </p>
 
 
@@ -96,18 +96,18 @@ Overall, the results confirm that Well 3 is considerably more difficult to forec
 
 ### Result on Test Dataset
 <p align="center">
-  <img src="pictures/Well3_recursive_final_model_testdata_7.png" alt="7 days horizon"><br>
-  <i>Figure 7: Best performing recursive models for well 3. 7 days horizon><br>
+  <img src="pictures/Well3_recursive_final_model_testdata_7.png" alt="7 days horizon"</i><br>
+  <i>Figure 7: Best performing recursive models for well 3. 7 days horizon</i><br>
 </p>
 
 <p align="center">
-  <img src="pictures/Well3_recursive_final_model_testdata_14.png" alt="14 days horizon"><br>
-  <i>Figure 8: Best performing recursive models for well 3. 14 days horizon><br>
+  <img src="pictures/Well3_recursive_final_model_testdata_14.png" alt="14 days horizon"</i>><br>
+  <i>Figure 8: Best performing recursive models for well 3. 14 days horizon</i><br>
 </p>
 
 <p align="center">
   <img src="pictures/Well3_recursive_final_model_testdata_30.png" alt="30 days horizon"><br>
-  <i>Figure 9: Best performing recursive models for well 3. 30 days horizon><br>
+  <i>Figure 9: Best performing recursive models for well 3. 30 days horizon</i><br>
 </p>
 
 
@@ -329,17 +329,17 @@ For all the models evaluated for the direct model, Ridge regression was consiste
 
 <p align="center">
   <img src="pictures/Well3_direct_final_model_valdata_7.png" alt="direct 7 days horizon"><br>
-  <i>Figure 10: Best performing direct models for well 3. 7 days horizon><br>
+  <i>Figure 10: Best performing direct models for well 3. 7 days horizon</i><br>
 </p>
 
 <p align="center">
   <img src="pictures/Well3_direct_final_model_valdata_14.png" alt="direct 14 days horizon"><br>
-  <i>Figure 11: Best performing direct models for well 3. 14 days horizon><br>
+  <i>Figure 11: Best performing direct models for well 3. 14 days horizon</i><br>
 </p>
 
 <p align="center">
   <img src="pictures/Well3_direct_final_model_valdata_30.png" alt="direct 30 days horizon"><br>
-  <i>Figure 12: Best performing direct models for well 3. 30 days horizon><br>
+  <i>Figure 12: Best performing direct models for well 3. 30 days horizon</i><br>
 </p>
 
 
@@ -490,17 +490,17 @@ The final deployment should therefore combine the monthly direct forecast with p
 ### Results on Test Data
 <p align="center">
   <img src="pictures/Well3_direct_final_model_testdata_7.png" alt="direct 7 days horizon test"><br>
-  <i>Figure 13: Best performing direct models on test data for well 3. 7 days horizon><br>
+  <i>Figure 13: Best performing direct models on test data for well 3. 7 days horizon</i><br>
 </p>
 
 <p align="center">
   <img src="pictures/Well3_direct_final_model_testdata_14.png" alt="direct 14 days horizon test"><br>
-  <i>Figure 14: Best performing direct models on test data for well 3. 14 days horizon><br>
+  <i>Figure 14: Best performing direct models on test data for well 3. 14 days horizon</i><br>
 </p>
 
 <p align="center">
   <img src="pictures/Well3_direct_final_model_testdata_30.png" alt="direct 30 days horizon test"><br>
-  <i>Figure 15: Best performing direct models on test data for well 3. 30 days horizon><br>
+  <i>Figure 15: Best performing direct models on test data for well 3. 30 days horizon</i><br>
 </p>
 
 
