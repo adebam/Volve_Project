@@ -3,7 +3,7 @@ This section presents the analysis of Well 3 (15/9-F-12). For brevity, the discu
 
 Before presenting the modeling results, the production and operating time series are examined using time plots, STL decomposition, autocorrelation, and partial autocorrelation. This preliminary analysis helps explain why Well 3 is more difficult to forecast than Well 1
 
----
+
 ## Rate & Feature Time plots
 Figure 1 shows the historical oil, gas, and water rates together with the available operating measurements.
 
@@ -23,7 +23,7 @@ These behaviors indicate that the well does not follow one stable input-output r
   <i>Figure 1: Time-series plot of pressure, temperature, and fluid volumes for Well 3.</i>
 </p>
 
----
+
 ## STL Decomposition, ACF, PACF, and Stationarity
 STL decomposition was applied to separate the oil-rate time series into trend, seasonal, and residual components.
 
@@ -55,7 +55,7 @@ Overall, the exploratory analysis identifies four major forecasting challenges:
 
 For these reasons, Well 3 is expected to be more difficult to forecast than Well 1. The recursive models must reproduce not only the underlying production decline but also abrupt operational changes and structural shifts that are not fully explained by the available independent variables.
 
----
+
 ## Recursive Model
 ### Result on Validation Dataset
 <p align="center">
@@ -126,7 +126,7 @@ Overall, the poor test performance indicates that Well 3 experienced a structura
 
 A direct forecasting approach may perform better for Well 3 because it predicts each future horizon independently rather than feeding earlier predictions back into the model. This would reduce recursive error accumulation and prevent early mistakes from propagating through the full forecast window.
 
----
+
 
 ## Direct Forecast Model
 Because the recursive models (day 14 & 30 horizons) performed poorly after the structural change in Well 3, a direct forecasting strategy was also evaluated. The main purpose of the direct approach is to remove the repeated feedback of predicted production rates into subsequent forecast steps.
