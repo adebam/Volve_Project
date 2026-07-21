@@ -227,13 +227,13 @@ For the sake of breity, only 3 models are explained.
 
 
 ## Lasso 
-## Lasso-Selected Features
+### Lasso-Selected Features
 
 Lasso feature selection was performed using only the **training data**, with chronological time-series cross-validation used to select the regularization strength. Features with nonzero coefficients were retained for each production target.
 
 The coefficient sign indicates the direction of the modeled relationship, while the absolute coefficient is used to rank the selected features by influence.
 
-### Oil Production
+#### Oil Production
 
 | Target               | Selected feature             | Coefficient | Absolute coefficient |
 | -------------------- | ---------------------------- | ----------: | -------------------: |
@@ -245,7 +245,7 @@ The coefficient sign indicates the direction of the modeled relationship, while 
 
 The previous-day oil rate was the dominant predictor of oil production, demonstrating strong short-term persistence. Previous-day GOR and gas production contributed positively, while the negative water-cut coefficients suggest that higher historical water cut was associated with lower oil production.
 
-### Gas Production
+#### Gas Production
 
 | Target                | Selected feature             | Coefficient | Absolute coefficient |
 | --------------------- | ---------------------------- | ----------: | -------------------: |
@@ -257,7 +257,7 @@ The previous-day oil rate was the dominant predictor of oil production, demonstr
 
 Previous-day oil production was the strongest selected feature for gas prediction, reflecting the relationship between oil and associated gas production. The previous-day gas rate and GOR were also positively related to future gas production, while increasing historical water cut had a negative relationship.
 
-### Water Production
+#### Water Production
 
 | Target               | Selected feature                     | Coefficient | Absolute coefficient |
 | -------------------- | ------------------------------------ | ----------: | -------------------: |
@@ -521,7 +521,6 @@ Elastic Net performance generally worsened as the forecast horizon increased, wi
   <img src="pictures/Well1_RF_Recursive_Horizon_30.png" alt="Random Forest Recursive 30 day model"><br>
   <i>Figure 20: Random Forest Recursive 30 Day Horizon Model</i>
 </p>
-### Recursive Random Forest Results
 
 Random Forest achieved lower RMSE than Ridge for all three production phases. However, RMSE alone is not sufficient for selecting the best forecasting model. The time-series plots must also be examined to determine whether the predictions reproduce realistic production behavior.
 
