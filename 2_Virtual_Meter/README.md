@@ -21,7 +21,78 @@ The project also evaluates the model’s ability to forecast future production, 
 
 ## Executive Summary
 
+This project developed machine-learning-based virtual flow meters to estimate daily oil, gas, and water production between physical separator measurements. Six regression algorithms—Lasso, Ridge, Elastic Net, Random Forest, Gradient Boosting, and LightGBM—were evaluated using chronological training, validation, and test periods.
 
+### One Step Ahead Forecasting
+One-step-ahead forecasting was first used as a benchmark. 
+One-step-ahead forecasting is a time-series forecasting technique where a model predicts only the single immediate next time step ($t+1$) given all available historical observations up to time $t$.Once time step $t+1$ actually occurs and its true value is observed, that actual value is appended to the historical dataset, and the model predicts time step $t+2$.
+
+These models demonstrated that recent production history, particularly the previous-day phase rates, contains strong predictive information. However, one-step forecasting is not an operationally complete solution because it requires frequent actual production measurements to generate the next prediction.
+
+A total of 4 wells were analyzed. But for illustration purposes, only 2 wells are presented.
+
+To support practical deployment, recursive and direct forecasts were evaluated over **7-, 14-, and 30-day horizons**. The 30-day horizon was prioritized because it allows the virtual meter to operate between monthly separator measurements.
+
+### Well 1
+
+Well 1 exhibited relatively stable relationships between its historical production, operating measurements, and future phase rates. Independent phase models were more effective than enforcing one model family across all targets.
+
+Gradient Boosting produced the strongest recursive forecasts for oil and gas, while LightGBM was selected for water based on validation performance. On the final 30-day test forecast, oil and gas maintained strong out-of-sample performance:
+
+| Phase | Selected model    | Test RMSE | Test MAE | Test R² |
+| ----- | ----------------- | --------: | -------: | ------: |
+| Oil   | Gradient Boosting |    353.68 |   198.57 |   0.849 |
+| Gas   | Gradient Boosting |    285.51 |   155.96 |   0.871 |
+| Water | LightGBM          |  3,922.59 | 1,227.96 |  -1.045 |
+
+The oil and gas models followed the major production cycles, shut-ins, and restarts reasonably well. Water remained the main limitation because occasional unstable LightGBM predictions produced large errors. This demonstrates the importance of reviewing time-series plots in addition to RMSE and MAE.
+
+### Well 3
+
+Well 3 was considerably more difficult to forecast. Its production history contained structural changes that were not clearly explained by the available operating measurements. Around the middle of 2013, oil and gas declined abruptly, and the well later entered another regime in which oil and gas increased while water fell sharply.
+
+The recursive models struggled after these changes because they continued applying relationships learned from the earlier production regime. Once an inaccurate prediction was generated, it was reused as an input for later predictions, causing errors to propagate throughout the forecast block.
+
+A direct forecasting approach was therefore tested. Separate targets were constructed for each future lead so that every day in the forecast horizon was predicted directly from information available at the forecast origin. This prevented earlier predictions from being fed into later predictions.
+
+The direct Ridge models outperformed the final recursive models on the unseen test data at every horizon:
+
+| Horizon | Phase |  Direct RMSE | Recursive RMSE |
+| ------: | ----- | -----------: | -------------: |
+|  7 days | Oil   | **2,064.99** |       2,202.46 |
+|  7 days | Gas   | **1,683.65** |       1,851.67 |
+|  7 days | Water | **5,996.20** |      11,917.24 |
+| 14 days | Oil   | **2,288.41** |       4,135.74 |
+| 14 days | Gas   | **1,880.84** |       3,104.59 |
+| 14 days | Water | **6,848.20** |      14,205.78 |
+| 30 days | Oil   | **2,455.92** |       3,116.38 |
+| 30 days | Gas   | **2,033.99** |       3,183.61 |
+| 30 days | Water | **9,195.03** |      16,489.78 |
+
+The direct approach substantially reduced long-horizon error, particularly for water. Nevertheless, it could not fully resolve the structural-break problem because the available pressure, temperature, choke, and operating measurements did not provide enough information to identify the new production regime in advance.
+
+A disadvantage of direct forecasting is that the final observations before validation cannot be used for training. For a 30-day direct forecast, the training period must end 30 days earlier because the future targets for those rows fall inside the validation period. This reduces the amount of usable data and removes the most recent observations, which may be especially valuable when the well is changing rapidly.
+
+### Deployment Decision
+
+The 7-day forecasts generally produced the lowest errors, but they would require weekly separator measurements. The 14-day horizon offered no clear operational or accuracy advantage over the 30-day horizon.
+
+The **30-day horizon was therefore selected as the preferred deployment configuration**, accepting a moderate reduction in accuracy in exchange for reducing physical separator measurements to approximately once per month.
+
+The results also support using **independent phase models** rather than a single multitask or shared multi-output model. Independent modeling allows oil, gas, and water to use different algorithms, feature sets, hyperparameters, and prediction constraints. This flexibility was particularly valuable because no single model family consistently performed best for every phase and well.
+
+## Overall Conclusion
+
+The project demonstrates that virtual metering performance is strongly dependent on the behavior of the individual well.
+
+* For a relatively stable well such as Well 1, a 30-day recursive hybrid model can provide strong oil and gas forecasts.
+* For a well containing structural production changes such as Well 3, direct forecasting is more reliable than recursive forecasting because it avoids error propagation.
+* Water production is consistently the most difficult phase to predict.
+* RMSE should not be assessed in isolation because it is scale-dependent and heavily influenced by occasional large errors.
+* Time-series plots, MAE, (R^2), cumulative production error, and engineering plausibility must also be considered.
+* Deployment should include prediction limits, anomaly detection, residual monitoring, and early model resets when a new production regime is detected.
+
+Overall, the study shows that machine-learning virtual meters can reduce the frequency of physical measurements, but reliable deployment requires well-specific model selection, careful monitoring, and safeguards for changing operating conditions.
 
 
 ## Modules
@@ -38,24 +109,64 @@ The project also evaluates the model’s ability to forecast future production, 
 
 ## Project Structure
 ```text
-├── assets
-│   └── style.css
-├── new-workspace.jupyterlab-workspace
-├── notebooks
-│   ├── 1_Load_Clean_Production_data.ipynb
-│   ├── 2_Find_Load_plot_X_Y_loc.ipynb
-│   ├── 3_Grid_properties.ipynb
-│   ├── 4_decline_curve_analysis.ipynb
-│   ├── Dash_Decline_Curve.ipynb
-│   ├── Dash_Production.ipynb
-│   ├── Dash_Well_Comparison.ipynb
-│   └── temp-plot.html
+Virtual_Meter/
+├── 1_Load_split_export_make_plots.ipynb
+├── 2_Plot_Clean_dfs.ipynb
+├── 3_SARIMA.ipynb
+├── 4_SARIMA_exo.ipynb
+├── DF__1-15-9-F-1_C_Recursive.ipynb
+├── DF__1-15-9-F-1_C_Recursive_old.ipynb
+├── DF__2-15_9-F-11_Direct.ipynb
+├── DF__2-15_9-F-11_Recursive.ipynb
+├── DF__2-15_9-F-12_Combine_Recursive_and_Direct.ipynb
+├── DF__3-15-9-F-12Combine_Recursive_and_Direct.ipynb
+├── DF__3-15-9-F-12_Direct.ipynb
+├── DF__3-15-9-F-12_Recursive.ipynb
+├── DF__4-15-9-F-14_Direct.ipynb
+├── DF__4-15-9-F-14_Recursive.ipynb
+├── environment.yml
+├── models_dict.joblib
+├── order_dict.joblib
+├── pictures
+├── processed_inputs
+│   ├── combined_final_selection_3-15-9-F-12.joblib
+│   ├── combined_final_selection_well2.joblib
+│   ├── df1_cleaned.csv
+│   ├── df1.csv
+│   ├── df2_cleaned.csv
+│   ├── df2.csv
+│   ├── df3_cleaned.csv
+│   ├── df3.csv
+│   ├── df4_cleaned.csv
+│   ├── df4.csv
+│   ├── df5_cleaned.csv
+│   ├── df5.csv
+│   ├── df6.csv
+│   ├── df7.csv
+│   ├── direct_model_artifacts_3-15-9-F-12.joblib
+│   ├── direct_model_artifacts_well2.joblib
+│   ├── direct_model_artifacts_well4.joblib
+│   ├── recursive_model_artifacts_3-15-9-F-12.joblib
+│   ├── recursive_model_artifacts_well1.joblib
+│   ├── recursive_model_artifacts_well2.joblib
+│   └── recursive_model_artifacts_well4.joblib
+├── __pycache__
 ├── README.md
+├── README-WELL1.md
+├── README-WELL3.md
+├── requirements.txt
 ├── src
-│   ├── Decline_curve.py
-│   ├── Find_Load_plot_X_Y_loc.py
-│   ├── Load_clean_production_data.py
-│   └── Load_Petrophysical_data.py
+│   ├── basic_helper_functions.py
+│   ├── Direct_Horizon_Model0_helper_functions.py
+│   ├── Direct_Horizon_Model1_helper_functions.py
+│   ├── Feature_Engineering_Multi.py
+│   ├── Feature_Engineering.py
+│   ├── Final_Model_and_Test.py
+│   ├── Machine_Learning_Multi.py
+│   ├── Machine_Learning.py
+│   ├── __pycache__
+│   ├── sarima_helper_functions_EXO.py
+│   └── sarima_helper_functions.py
 └── The-geographic-location-of-the-Volve-field.png
 ```
 
