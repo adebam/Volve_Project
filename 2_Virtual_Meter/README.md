@@ -468,6 +468,7 @@ $$
 \left\{ \hat{y}_{t+1},\, \hat{y}_{t+2},\, \ldots,\, \hat{y}_{t+H} \right\} = \left\{ f_1(\mathbf{Z}_t),\, f_2(\mathbf{Z}_t),\, \ldots,\, f_H(\mathbf{Z}_t) \right\}
 $$
 
+
 The model does not wait for the Day 1 prediction before calculating the Day 2 prediction. All forecast horizons can be generated at the same time.
 
 At the end of the forecast horizon, a new separator measurement becomes available. The final predicted oil, gas, and water rates are compared with the actual measured phase rates:
