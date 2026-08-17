@@ -671,38 +671,3 @@ Water performance was considerably weaker, with an RMSE of **3,922.59 STB/D**. A
 Overall, the unseen test results support the selected Gradient Boosting models for oil and gas, while the LightGBM water model remains the main limitation of the final virtual-metering system, as it overfited the data.
 
 The model is now ready for deployment!
-
-# below
-Effect of Current and Lagged Operating Measurements
-
-The feature-engineering pipeline was tested both with current operating measurements and with operating variables shifted by at least one day. For the one-step-ahead model, using lagged operating measurements produced better validation results. This configuration also maintains a clear forecasting relationship in which information available through day $t$ is used to predict production on day $t+1$.
-
-For the recursive models, retaining the current operating measurements produced better results. Although future oil, gas, and water rates are unavailable between separator tests, sensor variables such as wellhead pressure, temperature, choke size, and on-stream hours may still be recorded daily. These measurements provide updated information about the actual well condition and help reduce the drift caused by repeatedly feeding predicted production rates back into the model.
-
-The recursive workflow can therefore be represented as:
-
-y
-^
-	​
-
-t
-	​
-
-=f(
-y
-^
-	​
-
-t−1
-	​
-
-,X
-t
-measured
-	​
-
-)
-
-where $\hat{\mathbf{y}}_{t-1}$ contains the previously predicted oil, gas, and water rates, while $\mathbf{X}_t^{\text{measured}}$ contains the current sensor and operating measurements.
-
-This distinction is important: the production rates are forecast recursively, but the operating variables may be updated with real daily measurements when they are available. If a current operating variable is not available at prediction time, it must instead be lagged, held constant, defined from an operating plan, or forecast separately.

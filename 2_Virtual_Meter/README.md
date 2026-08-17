@@ -21,9 +21,31 @@ The project also evaluates the model’s ability to forecast future production, 
 
 ## Executive Summary
 
-This project developed machine-learning-based virtual flow meters to estimate daily oil, gas, and water production between physical separator measurements. Six regression algorithms—Lasso, Ridge, Elastic Net, Random Forest, Gradient Boosting, and LightGBM—were evaluated using chronological training, validation, and test periods.
+<p align="center">
+  <img src="pictures/instrumental_separator.png" alt="Virtual Meter"><br>
+  <i>Figure 1: Virtual Metering. Aim is to replace the 3-phase separator with a virtual meter</i>
+</p>
 
-### One Step Ahead Forecasting
+This project investigates whether machine-learning models can be used as virtual flow meters to estimate daily oil, gas, and water production between physical separator measurements.
+
+Rather than treating the problem as a conventional regression exercise, the study focuses on the practical question of how a forecasting system would operate when actual phase-rate measurements are only available periodically. Six regression algorithms—Lasso, Ridge, Elastic Net, Random Forest, Gradient Boosting, and LightGBM—were evaluated using chronological training, validation, and test periods.
+
+### What Business Problem Is Being Solved?
+Accurate well-level oil, gas, and water rates are required for production allocation, reservoir surveillance, well-performance monitoring, and production optimization. However, obtaining physical multiphase measurements continuously for every producing well can be expensive and operationally difficult.
+
+In practice, wells may therefore be tested periodically using a separator, leaving periods between measurements where the true individual phase rates are unknown.
+
+The objective of this project is to determine whether a machine-learning-based virtual meter can estimate:
+
+daily oil rate;
+daily gas rate;
+daily water rate;
+
+between physical separator measurements.
+
+The ultimate goal is not necessarily to eliminate well testing, but to reduce the frequency of physical measurements while maintaining useful estimates of well performance between tests.
+
+### Why Is One-Step-Ahead Forecasting Insufficient?
 One-step-ahead forecasting was first used as a benchmark. 
 One-step-ahead forecasting is a time-series forecasting technique where a model predicts only the single immediate next time step ($t+1$) given all available historical observations up to time $t$.Once time step $t+1$ actually occurs and its true value is observed, that actual value is appended to the historical dataset, and the model predicts time step $t+2$.
 
@@ -208,7 +230,7 @@ Consequently, virtual metering should not be treated as a conventional regressio
 #### One Step (Day) Look Ahead
 A one-step look-ahead model predicts the production rate for the next day using all information available up to the current day.
 
-For example, at the end of Day 13, the model uses production history, sensor measurements, and operating conditions observed through Day 13 to predict the oil, gas, and water rates for Day 14.For day 15 prediction, the actual rates of day 14 is no avaliable, and the predicted rate for day 14 is now replaced by the actual real rates of day 14.
+For example, at the end of Day 13, the model uses production history, sensor measurements, and operating conditions observed through Day 13 to predict the oil, gas, and water rates for Day 14.For day 15 prediction, the actual rates of day 14 is now avaliable, and the predicted rate for day 14 is now replaced by the actual real rates of day 14.
 
 ```mermaid
 flowchart LR
